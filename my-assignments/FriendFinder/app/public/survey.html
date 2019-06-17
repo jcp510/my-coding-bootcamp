@@ -15,12 +15,12 @@
 
     <div class="container">
 
-      <h1>Survey</h1>
+      <h2>Survey</h2>
       <hr>
 
       <form>
 
-        <h2>About You</h2>
+        <h3><strong>About You</strong></h3>
 
         <div class="form-group">
           <label for="name">Your Name (Required)</label>
@@ -41,7 +41,18 @@
         <div id="questions-div">
         </div>
 
+        <!-- Submit button. -->
+        <button type="button" class="btn btn-primary btn-lg btn-block" id="submit">Submit Survey</button>
+
       </form>
+
+      <hr>
+
+      <footer>
+        <div >
+          <p><a href="./data/friends.js"></a></p>
+        </div>
+      </footer>
 
     </div>
 
@@ -73,16 +84,18 @@
 
       for (var i = 0; i < questions.length; i++) {
         questionHtml.push(
-          '<h3><strong>Question ' + i + '</strong></h3>' +
-          '<h4>' + questions[i] + '</h4>' + 
-          '<select class="custom-select">' +
-            '<option selected>Select an option</option>' +
-            '<option value="1">1 (Strongly disagree)</option>' +
-            '<option value="2">2</option>' +
-            '<option value="3">3</option>' +
-            '<option value="4">4</option>' +
-            '<option value="5">5 (Strongly agree)</option>' +
-          '</select>'
+          '<div class="form-group">' +  
+            '<h3><strong>Question ' + (i + 1) + '</strong></h3>' +
+            '<h4>' + questions[i] + '</h4>' + 
+            '<select class="custom-select">' +
+              '<option selected>Select an option</option>' +
+              '<option value="1">1 (Strongly disagree)</option>' +
+              '<option value="2">2</option>' +
+              '<option value="3">3</option>' +
+              '<option value="4">4</option>' +
+              '<option value="5">5 (Strongly agree)</option>' +
+            '</select>' +
+          '</div>'
         );
       }
 

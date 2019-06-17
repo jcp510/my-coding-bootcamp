@@ -99,3 +99,17 @@ var friends = [
   },
 
 ];
+
+function getRandomScore(min,max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min)) + min;
+}
+
+for (var i = 0; i < friends.length; i++) {
+  for (var j = 0; j < 10; j++) {
+    friends[i].scores.push(getRandomScore(1, 6));
+  }
+}
+
+console.log(friends);
