@@ -100,6 +100,7 @@ var friends = [
 
 ];
 
+// To populate survey scores for the friends.
 function getRandomScore(min,max) {
   min = Math.ceil(min);
   max = Math.floor(max);
@@ -112,4 +113,4 @@ for (var i = 0; i < friends.length; i++) {
   }
 }
 
-console.log(friends);
+module.exports = friends;

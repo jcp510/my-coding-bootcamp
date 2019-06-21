@@ -42,26 +42,51 @@
         </div>
 
         <!-- Submit button. -->
-        <button type="button" class="btn btn-primary btn-lg btn-block" id="submit">Submit Survey</button>
+        <button type="submit" class="btn btn-primary btn-lg btn-block" id="submit">Submit Survey</button>
 
       </form>
+
+      <!-- Modal to display best match. -->
+      <div class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Best Match</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p id="best-match-name"></p>
+              <img id="best-match-pic" src="" alt="best match photo">
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <hr>
 
       <footer>
         <div >
-          <p><a href="./data/friends.js"></a></p>
+          <p><a href="./data/friends.js"></a>API Friends List</p>
         </div>
       </footer>
 
     </div>
 
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
     
     <script type="text/javascript">
+      // Hide modal by default.  Will be displayed when survey is submitted and best match is found.
+      $(".modal").modal("hide");
+      
       var questions = [
         'Your mind is always buzzing with ideas and plans.',
         'You rely more on your experience than your imagination.',
@@ -100,6 +125,32 @@
       }
 
       $("#questions-div").append(questionHtml.join(''));
+
+      // Submit survey button functionality.
+      $("#submit").on("click", function(event) {
+        event.preventDefault();
+
+        // Grab form elements to be posted to Express server.
+        var newFriendScores = [];
+        $(".custom-select").each(function() {
+          newFriendScores.push($(this).val());
+        });
+        
+        var newFriend = {
+          name: $("#name").val(),
+          photo: $("#photo-link").val(),
+          scores: newFriendScores
+        };
+
+        // jQuery AJAX shorthand method to POST the data to friends API.
+        $.post("/api/friends", newFriend, function(data) {
+
+          // Populate modal with name and pic of best match, then display.
+          $("#best-match-name").append(data.name);
+          $("#best-match-pic").attr("src", data.photo);
+          $(".modal").modal("show");
+        });
+      });
     </script>
   </body>
 
